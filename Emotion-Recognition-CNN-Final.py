@@ -57,7 +57,6 @@ class CustomDataset(Dataset):
 # Specify the data transformations
 train_transform = transforms.Compose([
     transforms.RandomRotation(degrees=15),  # Randomly rotate the image by up to 15 degrees
-    #transforms.RandomCrop(size=224),        # Randomly crop the image
     transforms.GaussianBlur(kernel_size=3), # Apply Gaussian blur with a kernel size of 3
     transforms.ToTensor(),                   # Convert the image to a PyTorch tensor
     transforms.Normalize(mean=[0.5], std=[0.5])  # Normalize the image pixel values
@@ -77,7 +76,7 @@ train_dataset = CustomDataset(data_dir=train_data_dir, transform=train_transform
 test_dataset = CustomDataset(data_dir=test_data_dir, transform=test_transform)
 
 # Create data loaders
-batch_size = 32
+batch_size = 64
 train_data_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 test_data_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
@@ -86,8 +85,11 @@ class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, kernel_size=3, stride=1, padding=1)
+        self.bn1 = nn.BatchNorm2d(32)  # Batch normalization after the first convolutional layer
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
+        self.bn2 = nn.BatchNorm2d(64)  # Batch normalization after the second convolutional layer
         self.conv3 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1)
+        self.bn3 = nn.BatchNorm2d(128)  # Batch normalization after the third convolutional layer
         self.relu = nn.ReLU()
         self.maxpool = nn.MaxPool2d(kernel_size=2, stride=2)
         self.fc1 = nn.Linear(128 * 6 * 6, 256)  # First fully connected layer
@@ -100,12 +102,15 @@ class CNN(nn.Module):
 
     def forward(self, x):
         x = self.conv1(x)
+        x = self.bn1(x)
         x = self.relu(x)
         x = self.maxpool(x)
         x = self.conv2(x)
+        x = self.bn2(x)
         x = self.relu(x)
         x = self.maxpool(x)
         x = self.conv3(x)
+        x = self.bn3(x)
         x = self.relu(x)
         x = self.maxpool(x)
         x = x.view(x.size(0), -1)
