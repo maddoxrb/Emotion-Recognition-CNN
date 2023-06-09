@@ -26,6 +26,8 @@ import {
   Button,
 } from '@chakra-ui/react'
 
+import {Helmet} from "react-helmet";
+
 const generatedImages = [
   { title: 'Image 1', image: 'https://bit.ly/dan-abramov', model: 'model', actual: 'model'},
   { title: 'Image 2', image: 'https://bit.ly/dan-abramov', model: 'model', actual: 'actual'},
@@ -50,6 +52,10 @@ function App() {
 
   return (
     <ChakraProvider>
+      <Helmet>
+          <title> Face Emotion Detector </title>
+          <meta name="Face Emotion Detector" content="A CNN model that determines the emotion of faces." />
+      </Helmet>
         <Tabs isFitted variant='line' size='sm'>
           <TabList >
             <Tab>Face Emotion Detector</Tab>
