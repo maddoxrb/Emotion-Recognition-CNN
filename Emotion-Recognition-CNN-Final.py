@@ -108,10 +108,10 @@ model = CNN()
 
 # Define the loss function and optimizer
 criterion = nn.CrossEntropyLoss(weight=class_weights)
-optimizer = optim.Adam(model.parameters(), lr=0.0001)
+optimizer = optim.Adam(model.parameters(), lr=0.00001)
 
 # Training loop
-num_epochs = 15
+num_epochs = 25
 
 for epoch in range(num_epochs):
     # Training
