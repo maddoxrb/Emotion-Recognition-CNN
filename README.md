@@ -4,7 +4,6 @@ Implements a convolutional neural network to classify images of faces into diffe
 
 # TODO: Aditya
 - fix dynamic page coding for the model page in particular (so it can accomodate different pages)
-- fix the piecharts to adhere to the darkmode changes (edge of the piechart should be dark during dark mode)
 - make the right piechart fully functioning
 - update the left piechart and connect it to the backend server calls
 - create the backend server calls (skeletons)
