@@ -8,7 +8,7 @@ function FooterBar() {
       <Box bg={colorMode === "dark" ? "gray.900" : "gray.200"} p={4} mt={8}>
         <Center>
           <Box fontSize="sm" color={colorMode === "dark" ? "white" : "gray.500"}>
-            Created by M. Barron
+            Created by M. Barron and A. Shrey
           </Box>
         </Center>
       </Box>

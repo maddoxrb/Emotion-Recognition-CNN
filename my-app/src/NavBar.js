@@ -22,10 +22,10 @@ function NavBar() {
           </Box>
           <Spacer />
           <Box display={{ base: "none", md: "block" }} mr={-2}>
-            <Link href="Model" mx={2} color={colorMode === "dark" ? "white" : "gray.500"} _hover={{ fontWeight: "bold" }}>
+            <Link href="model" mx={2} color={colorMode === "dark" ? "white" : "gray.500"} _hover={{ fontWeight: "bold" }}>
               Model Accuracy Testing
             </Link>
-            <Link href="" mx={2} color={colorMode === "dark" ? "white" : "gray.500"} _hover={{ fontWeight: "bold" }}>
+            <Link href="/info" mx={2} color={colorMode === "dark" ? "white" : "gray.500"} _hover={{ fontWeight: "bold" }}>
               Info
             </Link>
           </Box>
@@ -50,10 +50,10 @@ function NavBar() {
             <DrawerCloseButton />
             <DrawerHeader>Menu</DrawerHeader>
             <DrawerBody>
-              <Link href="#" display="block" my={2} color={colorMode === "dark" ? "white" : "gray.500"} _hover={{ fontWeight: "bold" }}>
+              <Link href="model" display="block" my={2} color={colorMode === "dark" ? "white" : "gray.500"} _hover={{ fontWeight: "bold" }}>
                 Model Accuracy Testing
               </Link>
-              <Link href="#" display="block" my={2} color={colorMode === "dark" ? "white" : "gray.500"} _hover={{ fontWeight: "bold" }}>
+              <Link href="info" display="block" my={2} color={colorMode === "dark" ? "white" : "gray.500"} _hover={{ fontWeight: "bold" }}>
                 Info
               </Link>
             </DrawerBody>
