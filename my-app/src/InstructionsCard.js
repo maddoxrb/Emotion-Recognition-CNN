@@ -3,7 +3,7 @@ import { Box, Card, CardBody, ChakraProvider, Text } from '@chakra-ui/react';
 const InstructionsCard = ({ data }) => {
   return (
     <ChakraProvider>
-      <Box height="55vh" display="flex" alignItems="center" justifyContent="center">
+      <Box height="50vh" display="flex" alignItems="center" justifyContent="center">
         <Card width="1200px">
           <CardBody>
             <Text fontSize="lg" mb={4}>

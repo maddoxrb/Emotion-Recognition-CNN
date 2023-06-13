@@ -23,6 +23,7 @@ import Model from './Model';
 
 
 function App() {
+
   return (
     <ChakraProvider>
       <Helmet>
@@ -33,7 +34,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="" element={<Model />} />
-          <Route path="model" element={<FooterBar />} />
+          <Route path="model" element={<Model />} />
           <Route path="info" element={<Info />} />
         </Routes>
       </BrowserRouter>

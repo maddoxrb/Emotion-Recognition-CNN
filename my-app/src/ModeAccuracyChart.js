@@ -1,6 +1,6 @@
-import { PieChart, Pie, Legend, Cell, Label } from 'recharts';
+import { PieChart, Pie, Legend, Cell } from 'recharts';
 
-const AccuracyChart = ({ data }) => {
+const UserAccuracyChart = ({ data }) => {
   const COLORS = ['#107C10', '#D80000'];
 
   return (
@@ -11,24 +11,29 @@ const AccuracyChart = ({ data }) => {
         cx="50%"
         cy="50%"
         outerRadius={160}
-        fill="#8884d8"
+        fill="transparent"
+        stroke="none"
         labelLine={false}
         label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
           const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
           const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
           const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
 
-          return (
-            <text
-              x={x}
-              y={y}
-              fill="#fff"
-              textAnchor={x > cx ? 'start' : 'end'}
-              dominantBaseline="central"
-            >
-              {`${(percent * 100).toFixed(0)}%`}
-            </text>
-          );
+          if (percent > 0) {
+            return (
+              <text
+                x={x}
+                y={y}
+                fill="#fff"
+                textAnchor={x > cx ? 'start' : 'end'}
+                dominantBaseline="central"
+              >
+                {`${(percent * 100).toFixed(0)}%`}
+              </text>
+            );
+          } else {
+            return null;
+          }
         }}
       >
         {data.map((entry, index) => (
@@ -46,4 +51,4 @@ const AccuracyChart = ({ data }) => {
   );
 };
 
-export default AccuracyChart;
+export default UserAccuracyChart;
