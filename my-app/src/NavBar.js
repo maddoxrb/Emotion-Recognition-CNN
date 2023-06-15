@@ -14,7 +14,7 @@ function NavBar() {
   return (
     <ChakraProvider>
       <Box bg={colorMode === "dark" ? "gray.900" : "gray.200"} p={4}>
-        <Flex maxW="1200px" mx="auto" align="center">
+        <Flex maxW="auto" mx="auto" align="center">
           <Box>
             <Text as='b' fontSize='3xl'>
               Face Emotion Detector

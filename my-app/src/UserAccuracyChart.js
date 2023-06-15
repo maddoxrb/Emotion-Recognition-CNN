@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Legend, Cell } from 'recharts';
 
 const UserAccuracyChart = ({ data }) => {
@@ -50,5 +51,6 @@ const UserAccuracyChart = ({ data }) => {
     </PieChart>
   );
 };
+
 
 export default UserAccuracyChart;
