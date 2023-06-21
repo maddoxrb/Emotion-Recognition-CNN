@@ -3,12 +3,9 @@ Implements a convolutional neural network to classify images of faces into diffe
 
 
 # TODO: Aditya
-- fix dynamic coding pages:
-    - update the model accuracy charts to cards that have teh size of teh piechart change with the image
 - make the right piechart fully functioning
 - update the left piechart and connect it to the backend server calls
 - create the backend server calls (skeletons)
-- fix bugs with changing the size of the screen
 
 # TODO: Maddox
 - figure out how to host the backend 
