@@ -18,14 +18,8 @@ import {
   SimpleGrid,
   Divider,
   CardFooter,
-  Text,
   AbsoluteCenter,
   Button,
-  HStack,
-  StackDivider,
-  Flex,
-  Alert, 
-  AlertIcon, 
   AlertDialog, 
   AlertDialogOverlay, 
   AlertDialogContent, 
@@ -34,13 +28,7 @@ import {
   AlertDialogBody, 
   AlertDialogFooter,
   useDisclosure,
-  Stack,
-  Grid,
-  GridItem,
-  useBreakpointValue,
 } from '@chakra-ui/react'
-
-import { FaCircle } from 'react-icons/fa';
 
 import UserAccuracyChart from './UserAccuracyChart';
 import ModelAccuracyChart from './ModeAccuracyChart';
@@ -50,7 +38,6 @@ import InstructionsCard from './InstructionsCard';
 // Array that contains the generated images
 const generatedImages = [
   { title: 'Generated Image', image: 'https://bit.ly/dan-abramov', model: 'model', actual: 'model'},
-  // { title: 'Image 2', image: 'https://bit.ly/dan-abramov', model: 'model', actual: 'actual'},
 ];
 
 function Model() {
@@ -73,15 +60,6 @@ const data = [
   { name: 'Correct', value: dataCorrect },
   { name: 'Incorrect', value: dataIncorrect },
 ];
-
-// Get the Grid Template Columns for the middle row
-const getGridTemplateColumns = (columnCount) => {
-  if (columnCount === 3) {
-    return '6fr 3fr 3fr'; // Middle card takes up 2 times the space
-  } else {
-    return `repeat(${columnCount}, 1fr)`;
-  }
-};
 
 const handleClick = async () => {
   const runScript = async () => {
@@ -115,7 +93,6 @@ const handleClick = async () => {
   }
 };
 
-const columnCount = useBreakpointValue({ base: 1, sm: 1, md: 1, lg: 3 });
 
 // State to hold the width of the card
 const [cardWidth, setCardWidth] = useState(0);
@@ -140,7 +117,6 @@ useEffect(() => {
 
   return (
     <ChakraProvider>
-      <SimpleGrid>
         <Box>
           <Center>
             <Heading pt={5} pb={0} as='h2' size='xl'>
@@ -149,7 +125,8 @@ useEffect(() => {
           </Center>
         </Box>
         <InstructionsCard/>
-        <Box display="grid" gridTemplateColumns={getGridTemplateColumns(columnCount)} gap={4} p={10} pt={0}>
+      <SimpleGrid columns={[1, 1, 2, 2, 2]} >
+        <Box display="grid" gap={4} p={10} pt={0} alignItems='center'>
           {/* Render the boxes */}
           {generatedImages.map((images, index) => (
             <Card key={index} height="625px" width="100%" ref={cardRef}>
@@ -175,7 +152,7 @@ useEffect(() => {
                 <CardFooter>
                   <VStack spacing="10px">
                     <Center>
-                      <SimpleGrid columns={4} spacing={6}>
+                      <SimpleGrid columns={4} spacing={3} zIndex={2}>
                         <Button
                           onClick={() => setSelectedLabel('angry')}
                           colorScheme={selectedLabel === 'angry' ? 'blue' : 'gray'}
@@ -233,7 +210,9 @@ useEffect(() => {
       
             </Card>
           ))}
-          <Card height="625px">
+      
+        </Box>
+        <Card height="625px">
             <Center>
               <CardHeader>
                 <Heading size='lg'>Your Accuracy</Heading>
@@ -242,36 +221,10 @@ useEffect(() => {
             <AbsoluteCenter>
               <UserAccuracyChart data={data} cardWidth={cardWidth}/>
             </AbsoluteCenter>
-            <CardFooter position="absolute" bottom="0" width="100%" p={5} justifyContent="center">
-              <Flex justifyContent="center" alignItems="center" flexDirection="column">
-                <Flex alignItems="center" mb={2} justifyContent="center">
-                  <FaCircle size={10} color="#107C10" />
-                  <Text fontWeight="bold" color="#107C10" ml={1} fontSize={20}>
-                    Correct
-                  </Text>
-                </Flex>
-                <Flex alignItems="center" justifyContent="center">
-                  <FaCircle size={10} color="#D80000" />
-                  <Text fontWeight="bold" color="#D80000" ml={1} fontSize={20}>
-                    Incorrect
-                  </Text>
-                </Flex>
-              </Flex>
-            </CardFooter>
           </Card>
-          <Card height="625px">
-            <Center>
-              <CardHeader>
-                <Heading size='lg'>Model Accuracy</Heading>
-              </CardHeader>
-            </Center>
-            <AbsoluteCenter>
-              <ModelAccuracyChart data={data} />
-            </AbsoluteCenter>
-          </Card>
-        </Box>
-
-      </SimpleGrid>
+          
+        </SimpleGrid>
+  
 
       <Center pt={10} pb={6}>
         <Button onClick={handleClick} colorScheme='blue'> 
@@ -296,6 +249,40 @@ useEffect(() => {
           </AlertDialogOverlay>
         </AlertDialog>
       </Center>
+
+
+      <SimpleGrid columns={[1, 1, 2, 2, 3]}  spacingX='40px' spacingY='20px' p={5}> 
+        <Card height="625px">
+            <Center>
+              <CardHeader>
+                <Heading size='lg'>Model Accuracy</Heading>
+              </CardHeader>
+            </Center>
+            <AbsoluteCenter>
+              <ModelAccuracyChart data={data} />
+            </AbsoluteCenter>
+          </Card>
+          <Card height="625px">
+            <Center>
+              <CardHeader>
+                <Heading size='lg'>Model Accuracy</Heading>
+              </CardHeader>
+            </Center>
+            <AbsoluteCenter>
+              <ModelAccuracyChart data={data} />
+            </AbsoluteCenter>
+          </Card>
+          <Card height="625px">
+            <Center>
+              <CardHeader>
+                <Heading size='lg'>Model Accuracy</Heading>
+              </CardHeader>
+            </Center>
+            <AbsoluteCenter>
+              <ModelAccuracyChart data={data} />
+            </AbsoluteCenter>
+          </Card>
+      </SimpleGrid>
     </ChakraProvider>
   );
 }

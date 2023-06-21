@@ -1,20 +1,16 @@
 import { PieChart, Pie, Legend, Cell } from 'recharts';
 
-const UserAccuracyChart = ({ data, cardWidth }) => {
+const UserAccuracyChart = ({ data }) => {
   const COLORS = ['#107C10', '#D80000'];
 
-  const chartWidth = 0.4; // Percentage value for chart width relative to the card
-
-  const chartRadius = cardWidth * chartWidth * 0.55;
-
   return (
-    <PieChart width={cardWidth} height={cardWidth}>
+    <PieChart width={500} height={500}>
       <Pie
         data={data}
         dataKey="value"
         cx="50%"
         cy="50%"
-        outerRadius={chartRadius}
+        outerRadius={160}
         fill="transparent"
         stroke="none"
         labelLine={false}
@@ -44,6 +40,13 @@ const UserAccuracyChart = ({ data, cardWidth }) => {
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie>
+      <Legend
+        iconType="circle"
+        verticalAlign="bottom"
+        align="center"
+        layout="vertical"
+        wrapperStyle={{ marginTop: '100px' }}
+      />
     </PieChart>
   );
 };
