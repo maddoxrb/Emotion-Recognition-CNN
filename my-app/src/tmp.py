@@ -4,17 +4,18 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/run-script', methods=['POST'])
+@app.route('/run3u', methods=['POST'])
 def run_script():
     # Execute your Python script logic here
-    print("cat")
-    return jsonify({'model1corrrect': int(100)})
-
-@app.route('/run-script-dog', methods=['POST'])
-def run_scriptdog():
-    # Execute your Python script logic here
-    print("dog")
-    return str(5)
+    return jsonify({'answer': 'lotus', 
+                    'model1correct': 1, 
+                    'model1incorrect': 0,
+                    'model2correct': 0,
+                    'model2incorrect': 1,
+                    'model3correct': 1,
+                    'model3incorrect': 1000,
+                    'filename': '/daisies/daisys1.jpg',
+                    })
 
 if __name__ == '__main__':
     app.run()
