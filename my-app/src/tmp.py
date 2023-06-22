@@ -8,7 +8,7 @@ CORS(app)
 def run_script():
     # Execute your Python script logic here
     print("cat")
-    return jsonify({'result': int(100)})
+    return jsonify({'model1corrrect': int(100)})
 
 @app.route('/run-script-dog', methods=['POST'])
 def run_scriptdog():
@@ -18,3 +18,8 @@ def run_scriptdog():
 
 if __name__ == '__main__':
     app.run()
+
+
+# Randomly generate an image
+# Correct Answer
+# Model Guess
