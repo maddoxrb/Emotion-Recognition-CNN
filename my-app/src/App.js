@@ -33,9 +33,9 @@ function App() {
       <NavBar />
       <BrowserRouter>
         <Routes>
-          <Route path="" element={<Model />} />
-          <Route path="model" element={<Model />} />
-          <Route path="info" element={<Info />} />
+          <Route path="/" element={<Model />} />
+          <Route path="/model" element={<Model />} />
+          <Route path="/info" element={<Info />} />
         </Routes>
       </BrowserRouter>
       <FooterBar/>
