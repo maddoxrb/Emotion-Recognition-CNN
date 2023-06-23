@@ -27,8 +27,8 @@ function App() {
   return (
     <ChakraProvider>
       <Helmet>
-          <title> Face Emotion Detector </title>
-          <meta name="Face Emotion Detector" content="A CNN model that determines the emotion of faces." />
+          <title> Flower Classifier </title>
+          <meta name="Flower Classifier" content="Different models that determines the type of flower." />
       </Helmet>
       <NavBar />
       <BrowserRouter>

@@ -127,7 +127,7 @@ function Model() {
           // Show toast notification with the actual answer
           toast({
             title: 'Incorrect Answer',
-            description: `The actual answer was ${answer}`,
+            description: `The actual answer was ${answer}.`,
             status: 'error',
             duration: 5000,
             position: 'top-left',
@@ -136,7 +136,7 @@ function Model() {
         }
 
         // Update the image URL with the new image
-        const newImageUrl = require(`${filename}`).default;
+        const newImageUrl = require(`${filename}`);
         setImageUrl(newImageUrl);
 
         // Update the model accuracies

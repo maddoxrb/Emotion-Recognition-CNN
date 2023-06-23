@@ -17,7 +17,7 @@ function NavBar() {
         <Flex maxW="auto" mx="auto" align="center">
           <Box>
             <Text as='b' fontSize='3xl'>
-              Face Emotion Detector
+              Flower Classifier
             </Text>
           </Box>
           <Spacer />
