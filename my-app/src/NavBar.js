@@ -1,15 +1,9 @@
 import { ChakraProvider, Box, Flex, Spacer, Link, Button, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, Text, DrawerCloseButton, useDisclosure, useColorMode, IconButton } from "@chakra-ui/react";
-import { ChevronDownIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   return (
     <ChakraProvider>

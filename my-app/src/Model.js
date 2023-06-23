@@ -21,7 +21,6 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useDisclosure,
-  Text,
   useToast, // Import useToast hook
 } from '@chakra-ui/react';
 
@@ -98,6 +97,7 @@ function Model() {
       }
     };
 
+    console.log(isButtonClicked)
     setIsButtonClicked(true);
 
     if (selectedLabel === '') {
