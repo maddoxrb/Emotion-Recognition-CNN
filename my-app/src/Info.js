@@ -1,4 +1,4 @@
-import { ChakraProvider, Box, Flex, Text, useColorMode, VStack, Center, Heading, Link, UnorderedList, ListItem, Card, CardHeader, CardBody, HStack} from "@chakra-ui/react";
+import { ChakraProvider, Box, Flex, Text, useColorMode, VStack, Center, Heading, Link, UnorderedList, ListItem, Card, CardHeader, CardBody, HStack, SimpleGrid} from "@chakra-ui/react";
 
 function Info() {
   const { colorMode } = useColorMode();
@@ -18,7 +18,7 @@ function Info() {
           <VStack m={4} p={4} boxShadow="md" borderRadius="md" bg={colorMode === "dark" ? "gray.800" : "gray.100"}>
             <Text fontSize="xl" fontWeight="bold">Custom Convolutional Model</Text>
             <Text>
-              Our first model is a custom-configured convolutional neural network. This means that we have meticulously designed and scaled the model architecture ourselves, without utilizing any pre-existing data for initial weight assignment. Through extensive experimentation with varying numbers of convolutional and fully connected layers, we have achieved the highest level of testing and training accuracy with a configuration consisting of two convolutional layers and four fully connected layers. The final model produced a training accuracy of 91.23%, and a testing accuracy of 75.94%.
+              Our first model is a custom-configured convolutional neural network. This means that we designed the model architecture ourselves, without utilizing any pre-existing data for initial weight assignment. Through experimentation with varying numbers of convolutional and fully connected layers, we achieved the highest level of testing and training accuracy with a configuration consisting of two convolutional layers and four fully connected layers. The final model produced a training accuracy of 91.23%, and a testing accuracy of 75.94%.
             </Text>
             <Text fontSize="md" fontWeight="bold" fontStyle="italic">Benefits of Using a Custom Model:</Text>
             <Text>
@@ -142,16 +142,16 @@ function Info() {
           {/* Custom Convolutional Model */}
           <VStack m={4} p={4} boxShadow="md" borderRadius="md" bg={colorMode === "dark" ? "gray.800" : "gray.100"}>
             <Text>
-            This endeavor represents a collaborative effort between Aditya Shrey and Maddox Barron, both currently students at Vanderbilt University, studying Computer Science. 
+            Aditya Shrey and Maddox Barron, both currently students at Vanderbilt University, studying Computer Science worked on the Flower Classifier.
 
-            For any questions regarding additional details about our models, this project, or any other undertakings, please do not hesitate to reach out to us using the provided contact information below:
+            For any questions regarding additional details about our models or the project, feel free to reach out to us using the provided contact information below:
             </Text>
 
             Aditya Shrey
             Vanderbilt University
             Email: aditya.shrey@vanderbilt.edu
 
-            <HStack p={5}>
+            <SimpleGrid p={5} columns={[1, 1, 2, 2, 2]} spacing={3}>
             <Card maxWidth="400px">
               <CardHeader fontWeight="bold" fontSize="xl">Maddox Barron</CardHeader>
               <CardBody>
@@ -170,9 +170,9 @@ function Info() {
                 </Link>
               </CardBody>
             </Card>
-            </HStack>
+            </SimpleGrid>
             <Text>
-            We welcome the opportunity to discuss our work further and look forward to any inquiries you may have
+            We welcome the opportunity to discuss our project further and look forward to any inquiries.
             </Text>
           </VStack>
         </Flex>
