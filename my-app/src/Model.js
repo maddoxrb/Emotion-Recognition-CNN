@@ -21,6 +21,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useDisclosure,
+  Text,
   useToast, // Import useToast hook
 } from '@chakra-ui/react';
 
@@ -58,6 +59,9 @@ function Model() {
   const [model3DataCorrect, setmodel3DataCorrect] = useState(0);
   const [model3DataIncorrect, setmodel3DataIncorrect] = useState(0);
 
+  // Define our previous image
+  const [prevAnswer, setPrevAnswer] = useState('bellflower')
+
   // Store the PieChart Data
   const userData = [
     { name: 'Correct', value: usrDataCorrect },
@@ -82,7 +86,7 @@ function Model() {
   const handleClick = async () => {
     const runScript = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/run3u', {
+        const response = await fetch('http://34.139.34.233:8000/run_script', {
           method: 'POST',
         });
         const data = await response.json();
@@ -97,7 +101,7 @@ function Model() {
     setIsButtonClicked(true);
 
     if (selectedLabel === '') {
-      setAlertMessage('Please select an emotion classification before confirming and generating a new image.');
+      setAlertMessage('Please select a flower classification before confirming and generating a new image.');
       onOpen();
     } else {
       try {
@@ -119,7 +123,7 @@ function Model() {
         console.log(model1correct);
 
         // Handle the parsed JSON data here
-        if (selectedLabel === answer) {
+        if (selectedLabel === prevAnswer) {
           setDataCorrect(usrDataCorrect + 1);
         } else {
           setDataIncorrect(usrDataIncorrect + 1);
@@ -127,7 +131,7 @@ function Model() {
           // Show toast notification with the actual answer
           toast({
             title: 'Incorrect Answer',
-            description: `The actual answer was ${answer}.`,
+            description: `The actual answer was ${prevAnswer}.`,
             status: 'error',
             duration: 5000,
             position: 'top-left',
@@ -138,6 +142,9 @@ function Model() {
         // Update the image URL with the new image
         const newImageUrl = require(`${filename}`);
         setImageUrl(newImageUrl);
+
+        // Update new answer
+        setPrevAnswer(answer)
 
         // Update the model accuracies
         setmodel1DataCorrect(model1DataCorrect + model1correct);
@@ -315,21 +322,13 @@ function Model() {
 
       <SimpleGrid columns={[1, 1, 2, 2, 3]} spacingX="40px" spacingY="20px" p={5}>
         <Card height="625px">
-          <Center>
-            <CardHeader>
-              <Heading size="lg">Model 1 Accuracy</Heading>
-            </CardHeader>
-          </Center>
-          <AbsoluteCenter>
-            <Model1AccuracyChart data={model1Data} cardWidth={cardWidth} />
-          </AbsoluteCenter>
-        </Card>
-        <Card height="625px">
-          <Center>
-            <CardHeader>
-              <Heading size="lg">Model 2 Accuracy</Heading>
-            </CardHeader>
-          </Center>
+        <Center>
+          <CardHeader>
+            <Heading size="lg" align="center">
+              Custom Convolutional Model Accuracy
+            </Heading> 
+          </CardHeader>
+        </Center>
           <AbsoluteCenter>
             <Model2AccuracyChart data={model2Data} cardWidth={cardWidth} />
           </AbsoluteCenter>
@@ -337,11 +336,21 @@ function Model() {
         <Card height="625px">
           <Center>
             <CardHeader>
-              <Heading size="lg">Model 3 Accuracy</Heading>
+              <Heading size="lg" align="center">Ensemble Model Accuracy</Heading>
             </CardHeader>
           </Center>
           <AbsoluteCenter>
             <Model3AccuracyChart data={model3Data} cardWidth={cardWidth} />
+          </AbsoluteCenter>
+        </Card>
+        <Card height="625px">
+          <Center>
+            <CardHeader>
+              <Heading size="lg" align="center">Transfer-Learning Model Accuracy</Heading>
+            </CardHeader>
+          </Center>
+          <AbsoluteCenter>
+            <Model1AccuracyChart data={model1Data} cardWidth={cardWidth} />
           </AbsoluteCenter>
         </Card>
       </SimpleGrid>

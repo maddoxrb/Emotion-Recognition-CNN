@@ -33,19 +33,15 @@ const InstructionsCard = () => {
           <Card maxW={1200}>
             <CardBody>
               <Text fontSize="lg" mb={4}>
-              Welcome to the Face Emotion Detector! This application uses a CNN model to determine the emotion of faces. Follow these instructions to use the application:
-              <br /><br />
-              Look at the generated images on the right side of the screen. Each image represents a face. Study the face and try to determine the corresponding emotion.
-              <br /><br />
-              Click on the emotion buttons below each image to select the emotion you think best represents the face. After selecting an emotion, click the "Generate New Image" button to generate a new face image.
-              <br /><br />
-              If you didn't select an emotion before generating a new image, an alert will remind you to choose one. If you selected the correct emotion for an image (e.g., "angry"), the accuracy chart will reflect that.
-              <br /><br />
-              Use the accuracy chart to track your performance and improve your emotion detection skills.
-
-              </Text>
-              <Text>
-                
+                Welcome to the Flower Classifier! This application uses different CNN models to determine the type of flowers. Follow these instructions to use the application:
+                <br /><br />
+                Look at the generated images on the right side of the screen. Each image represents a flower. Study the flower and try to determine the corresponding type.
+                <br /><br />
+                Click on the type buttons below each image to select the type you think best represents the flower. After selecting a type, click the "Generate New Image" button to generate a new flower image.
+                <br /><br />
+                If you didn't select a type before generating a new image, an alert will remind you to choose one. If you selected the correct type for an image (e.g., "Rose"), the accuracy chart will reflect that.
+                <br /><br />
+                Use the accuracy chart to track your performance and improve your flower classification skills. You can also see the accuracy of the CNN models along with you.
               </Text>
             </CardBody>
           </Card>
