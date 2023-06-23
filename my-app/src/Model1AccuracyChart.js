@@ -1,6 +1,6 @@
 import { PieChart, Pie, Legend, Cell } from 'recharts';
 
-const UserAccuracyChart = ({ data }) => {
+const Model1AccuracyChart = ({ data }) => {
   const COLORS = ['#107C10', '#D80000'];
 
   return (
@@ -51,4 +51,4 @@ const UserAccuracyChart = ({ data }) => {
   );
 };
 
-export default UserAccuracyChart;
+export default Model1AccuracyChart;

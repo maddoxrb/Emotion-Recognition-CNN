@@ -1,17 +1,10 @@
+import React, { useState, useRef, useEffect } from 'react';
 import {
-  React,
-  useState,
-  useRef,
-  useEffect
-} from 'react'
-
-import { 
   ChakraProvider,
   Center,
   Heading,
   Box,
   VStack,
-  Image,
   Card,
   CardBody,
   CardHeader,
@@ -20,215 +13,287 @@ import {
   CardFooter,
   AbsoluteCenter,
   Button,
-  AlertDialog, 
-  AlertDialogOverlay, 
-  AlertDialogContent, 
-  AlertDialogHeader, 
-  AlertDialogCloseButton, 
-  AlertDialogBody, 
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogCloseButton,
+  AlertDialogBody,
   AlertDialogFooter,
   useDisclosure,
-} from '@chakra-ui/react'
+  useToast, // Import useToast hook
+} from '@chakra-ui/react';
 
 import UserAccuracyChart from './UserAccuracyChart';
-import ModelAccuracyChart from './ModeAccuracyChart';
+import Model1AccuracyChart from './Model1AccuracyChart';
+import Model2AccuracyChart from './Model2AccuracyChart';
+import Model3AccuracyChart from './Model3AccuracyChart';
 import InstructionsCard from './InstructionsCard';
-
 
 // Array that contains the generated images
 const generatedImages = [
-  { title: 'Generated Image', image: 'https://bit.ly/dan-abramov', model: 'model', actual: 'model'},
+  { title: 'Generated Image', image: 'https://bit.ly/dan-abramov', model: 'model', actual: 'model' },
 ];
 
 function Model() {
-  // const { colorMode } = useColorMode();
+  // Set the default image URL here
+  const [imageUrl, setImageUrl] = useState(require('./FLOWERS/bellflowers/bellflowers1.jpg'));
 
   // Button Feature for generating new image
-const [isButtonClicked, setIsButtonClicked] = useState(false);
-const cancelRef = useRef();
-const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const cancelRef = useRef();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-// Button for determing what the user deems to be the emotion of the user
-const [selectedLabel, setSelectedLabel] = useState('');
+  // Button for determining what the user deems to be the emotion of the user
+  const [selectedLabel, setSelectedLabel] = useState('');
 
-// Defines the states for altert message, data correctness, and selected label
-const [alertMessage, setAlertMessage] = useState('');
-const [dataCorrect, setDataCorrect] = useState(0);
-const [dataIncorrect, setDataIncorrect] = useState(0);
+  // Defines the states for alert message, data correctness, and selected label
+  const [alertMessage, setAlertMessage] = useState('');
+  const [usrDataCorrect, setDataCorrect] = useState(0);
+  const [usrDataIncorrect, setDataIncorrect] = useState(0);
+  const [model1DataCorrect, setmodel1DataCorrect] = useState(0);
+  const [model1DataIncorrect, setmodel1DataIncorrect] = useState(0);
+  const [model2DataCorrect, setmodel2DataCorrect] = useState(0);
+  const [model2DataIncorrect, setmodel2DataIncorrect] = useState(0);
+  const [model3DataCorrect, setmodel3DataCorrect] = useState(0);
+  const [model3DataIncorrect, setmodel3DataIncorrect] = useState(0);
 
-const data = [
-  { name: 'Correct', value: dataCorrect },
-  { name: 'Incorrect', value: dataIncorrect },
-];
+  // Store the PieChart Data
+  const userData = [
+    { name: 'Correct', value: usrDataCorrect },
+    { name: 'Incorrect', value: usrDataIncorrect },
+  ];
+  const model1Data = [
+    { name: 'Correct', value: model1DataCorrect },
+    { name: 'Incorrect', value: model1DataIncorrect },
+  ];
+  const model2Data = [
+    { name: 'Correct', value: model2DataCorrect },
+    { name: 'Incorrect', value: model2DataIncorrect },
+  ];
+  const model3Data = [
+    { name: 'Correct', value: model3DataCorrect },
+    { name: 'Incorrect', value: model3DataIncorrect },
+  ];
 
-const handleClick = async () => {
-  const runScript = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:5000/run-script', {
-        method: 'POST',
-      });
-      const data = await response.json();
-      console.log(data);
-      return data.result;
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
+  // Create a toast notification
+  const toast = useToast();
+
+  const handleClick = async () => {
+    const runScript = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/run3u', {
+          method: 'POST',
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+      } catch (error) {
+        console.error('Error1:', error);
+        throw error;
+      }
+    };
+
+    setIsButtonClicked(true);
+
+    if (selectedLabel === '') {
+      setAlertMessage('Please select an emotion classification before confirming and generating a new image.');
+      onOpen();
+    } else {
+      try {
+        const response = await runScript();
+        console.log(response);
+
+        // Access the values from the JSON response
+        const {
+          answer,
+          model1correct,
+          model1incorrect,
+          model2correct,
+          model2incorrect,
+          model3correct,
+          model3incorrect,
+          filename,
+        } = response;
+
+        console.log(model1correct);
+
+        // Handle the parsed JSON data here
+        if (selectedLabel === answer) {
+          setDataCorrect(usrDataCorrect + 1);
+        } else {
+          setDataIncorrect(usrDataIncorrect + 1);
+
+          // Show toast notification with the actual answer
+          toast({
+            title: 'Incorrect Answer',
+            description: `The actual answer was ${answer}`,
+            status: 'error',
+            duration: 5000,
+            position: 'top-left',
+            isClosable: true,
+          });
+        }
+
+        // Update the image URL with the new image
+        const newImageUrl = require(`${filename}`).default;
+        setImageUrl(newImageUrl);
+
+        // Update the model accuracies
+        setmodel1DataCorrect(model1DataCorrect + model1correct);
+        setmodel1DataIncorrect(model1DataIncorrect + model1incorrect);
+        setmodel2DataCorrect(model2DataCorrect + model2correct);
+        setmodel2DataIncorrect(model2DataIncorrect + model2incorrect);
+        setmodel3DataCorrect(model3DataCorrect + model3correct);
+        setmodel3DataIncorrect(model3DataIncorrect + model3incorrect);
+
+        setSelectedLabel('');
+        setAlertMessage('');
+      } catch (error) {
+        console.error('Error2:', error);
+      }
     }
   };
 
-  setIsButtonClicked(true);
+  // State to hold the width of the card
+  const [cardWidth, setCardWidth] = useState(0);
 
+  // Ref to the card element
+  const cardRef = useRef(null);
 
-  if (selectedLabel === '') {
-    setAlertMessage('Please select an emotion classification before confirming and generating a new image.');
-    onOpen(); // Move onOpen() inside else block
-  } else if (selectedLabel === 'angry') {
-    const result = await runScript();
-    setDataCorrect(dataCorrect + parseInt(result));
-    setSelectedLabel('');
-  } else {
-    setDataIncorrect(dataIncorrect + 1);
-    setSelectedLabel('');
-    setAlertMessage('');
-  }
-};
+  // Update the card width when the component mounts or the card's width changes
+  useEffect(() => {
+    const updateCardWidth = () => {
+      const width = cardRef.current.clientWidth;
+      setCardWidth(width);
+    };
 
+    updateCardWidth();
+    window.addEventListener('resize', updateCardWidth);
 
-// State to hold the width of the card
-const [cardWidth, setCardWidth] = useState(0);
-
-// Ref to the card element
-const cardRef = useRef(null);
-
-// Update the card width when the component mounts or the card's width changes
-useEffect(() => {
-  const updateCardWidth = () => {
-    const width = cardRef.current.clientWidth;
-    setCardWidth(width);
-  };
-
-  updateCardWidth();
-  window.addEventListener('resize', updateCardWidth);
-
-  return () => {
-    window.removeEventListener('resize', updateCardWidth);
-  };
-}, []);
+    return () => {
+      window.removeEventListener('resize', updateCardWidth);
+    };
+  }, []);
 
   return (
     <ChakraProvider>
-        <Box>
-          <Center>
-            <Heading pt={5} pb={0} as='h2' size='xl'>
-              Model Accuracy Testing
-            </Heading>
-          </Center>
-        </Box>
-        <InstructionsCard/>
-      <SimpleGrid columns={[1, 1, 2, 2, 2]} >
-        <Box display="grid" gap={4} p={10} pt={0} alignItems='center'>
+      <Box>
+        <Center>
+          <Heading pt={5} pb={0} as="h2" size="xl">
+            Model Accuracy Testing
+          </Heading>
+        </Center>
+      </Box>
+      <InstructionsCard />
+      <SimpleGrid columns={[1, 1, 2, 2, 2]}>
+        <Box display="grid" gap={4} p={5} pt={0} alignItems="center">
           {/* Render the boxes */}
           {generatedImages.map((images, index) => (
             <Card key={index} height="625px" width="100%" ref={cardRef}>
               <Center>
                 <CardHeader>
-                  <Heading size='lg'>{images.title}</Heading>
+                  <Heading size="lg">{images.title}</Heading>
                 </CardHeader>
               </Center>
               <Center>
                 <CardBody mt={-5}>
                   <Center>
-                    <Image
-                      src={images.image}
-                      borderRadius='lg'
-                    />
+                    <Box
+                      width="350px" // Set the desired container width
+                      height="325px" // Set the desired container height
+                      overflow="hidden"
+                      borderRadius="lg" // Use "lg" for rounded corners
+                    >
+                      <img
+                        src={imageUrl}
+                        alt=""
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    </Box>
                   </Center>
                 </CardBody>
               </Center>
-              <Box position='relative' padding='6'>
+              <Box position="relative" padding="5">
                 <Divider />
               </Box>
               <Center>
                 <CardFooter>
                   <VStack spacing="10px">
                     <Center>
-                      <SimpleGrid columns={4} spacing={3} zIndex={2}>
+                      <SimpleGrid columns={4} spacing={2} zIndex={2}>
                         <Button
-                          onClick={() => setSelectedLabel('angry')}
-                          colorScheme={selectedLabel === 'angry' ? 'blue' : 'gray'}
+                          onClick={() => setSelectedLabel("bellflower")}
+                          colorScheme={selectedLabel === "bellflower" ? "blue" : "gray"}
                           flex="1"
                         >
-                          Angry
+                          Bellflower
                         </Button>
                         <Button
-                          onClick={() => setSelectedLabel('disgust')}
-                          colorScheme={selectedLabel === 'disgust' ? 'blue' : 'gray'}
+                          onClick={() => setSelectedLabel("daisy")}
+                          colorScheme={selectedLabel === "daisy" ? "blue" : "gray"}
                           flex="1"
                         >
-                          Disgust
+                          Daisy
                         </Button>
                         <Button
-                          onClick={() => setSelectedLabel('fear')}
-                          colorScheme={selectedLabel === 'fear' ? 'blue' : 'gray'}
+                          onClick={() => setSelectedLabel("dandelion")}
+                          colorScheme={selectedLabel === "dandelion" ? "blue" : "gray"}
                           flex="1"
                         >
-                          Fear
+                          Dandelion
                         </Button>
                         <Button
-                          onClick={() => setSelectedLabel('happy')}
-                          colorScheme={selectedLabel === 'happy' ? 'blue' : 'gray'}
+                          onClick={() => setSelectedLabel("lotus")}
+                          colorScheme={selectedLabel === "lotus" ? "blue" : "gray"}
                           flex="1"
                         >
-                          Happy
+                          Lotus
                         </Button>
                         <Button
-                          onClick={() => setSelectedLabel('natural')}
-                          colorScheme={selectedLabel === 'natural' ? 'blue' : 'gray'}
+                          onClick={() => setSelectedLabel("rose")}
+                          colorScheme={selectedLabel === "rose" ? "blue" : "gray"}
                           flex="1"
                         >
-                          Natural
+                          Rose
                         </Button>
                         <Button
-                          onClick={() => setSelectedLabel('sad')}
-                          colorScheme={selectedLabel === 'sad' ? 'blue' : 'gray'}
+                          onClick={() => setSelectedLabel("sunflower")}
+                          colorScheme={selectedLabel === "sunflower" ? "blue" : "gray"}
                           flex="1"
                         >
-                          Sad
+                          Sunflower
                         </Button>
                         <Button
-                          onClick={() => setSelectedLabel('surprise')}
-                          colorScheme={selectedLabel === 'surprise' ? 'blue' : 'gray'}
+                          onClick={() => setSelectedLabel("tulips")}
+                          colorScheme={selectedLabel === "tulips" ? "blue" : "gray"}
                           flex="1"
                         >
-                          Surprise
+                          Tulips
                         </Button>
                       </SimpleGrid>
                     </Center>
                   </VStack>
                 </CardFooter>
               </Center>
-      
             </Card>
           ))}
-      
         </Box>
         <Card height="625px">
-            <Center>
-              <CardHeader>
-                <Heading size='lg'>Your Accuracy</Heading>
-              </CardHeader>
-            </Center>
-            <AbsoluteCenter>
-              <UserAccuracyChart data={data} cardWidth={cardWidth}/>
-            </AbsoluteCenter>
-          </Card>
-          
-        </SimpleGrid>
-  
+          <Center>
+            <CardHeader>
+              <Heading size="lg">Your Accuracy</Heading>
+            </CardHeader>
+          </Center>
+          <AbsoluteCenter>
+            <UserAccuracyChart data={userData} cardWidth={cardWidth} />
+          </AbsoluteCenter>
+        </Card>
+      </SimpleGrid>
 
       <Center pt={10} pb={6}>
-        <Button onClick={handleClick} colorScheme='blue'> 
-          Confirm and Generate New Image 
+        <Button onClick={handleClick} colorScheme="blue">
+          Confirm and Generate New Image
         </Button>
         <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
           <AlertDialogOverlay>
@@ -237,9 +302,7 @@ useEffect(() => {
                 Oops!
               </AlertDialogHeader>
               <AlertDialogCloseButton />
-              <AlertDialogBody>
-                {alertMessage}
-              </AlertDialogBody>
+              <AlertDialogBody>{alertMessage}</AlertDialogBody>
               <AlertDialogFooter>
                 <Button ref={cancelRef} onClick={onClose}>
                   Close
@@ -250,38 +313,37 @@ useEffect(() => {
         </AlertDialog>
       </Center>
 
-
-      <SimpleGrid columns={[1, 1, 2, 2, 3]}  spacingX='40px' spacingY='20px' p={5}> 
+      <SimpleGrid columns={[1, 1, 2, 2, 3]} spacingX="40px" spacingY="20px" p={5}>
         <Card height="625px">
-            <Center>
-              <CardHeader>
-                <Heading size='lg'>Model Accuracy</Heading>
-              </CardHeader>
-            </Center>
-            <AbsoluteCenter>
-              <ModelAccuracyChart data={data} />
-            </AbsoluteCenter>
-          </Card>
-          <Card height="625px">
-            <Center>
-              <CardHeader>
-                <Heading size='lg'>Model Accuracy</Heading>
-              </CardHeader>
-            </Center>
-            <AbsoluteCenter>
-              <ModelAccuracyChart data={data} />
-            </AbsoluteCenter>
-          </Card>
-          <Card height="625px">
-            <Center>
-              <CardHeader>
-                <Heading size='lg'>Model Accuracy</Heading>
-              </CardHeader>
-            </Center>
-            <AbsoluteCenter>
-              <ModelAccuracyChart data={data} />
-            </AbsoluteCenter>
-          </Card>
+          <Center>
+            <CardHeader>
+              <Heading size="lg">Model 1 Accuracy</Heading>
+            </CardHeader>
+          </Center>
+          <AbsoluteCenter>
+            <Model1AccuracyChart data={model1Data} cardWidth={cardWidth} />
+          </AbsoluteCenter>
+        </Card>
+        <Card height="625px">
+          <Center>
+            <CardHeader>
+              <Heading size="lg">Model 2 Accuracy</Heading>
+            </CardHeader>
+          </Center>
+          <AbsoluteCenter>
+            <Model2AccuracyChart data={model2Data} cardWidth={cardWidth} />
+          </AbsoluteCenter>
+        </Card>
+        <Card height="625px">
+          <Center>
+            <CardHeader>
+              <Heading size="lg">Model 3 Accuracy</Heading>
+            </CardHeader>
+          </Center>
+          <AbsoluteCenter>
+            <Model3AccuracyChart data={model3Data} cardWidth={cardWidth} />
+          </AbsoluteCenter>
+        </Card>
       </SimpleGrid>
     </ChakraProvider>
   );

@@ -14,7 +14,7 @@ def run_script():
                     'model2incorrect': 1,
                     'model3correct': 1,
                     'model3incorrect': 1000,
-                    'filename': '/daisies/daisys1.jpg',
+                    'filename': './FLOWERS/bellflowers/bellflowers6.jpg',
                     })
 
 if __name__ == '__main__':
