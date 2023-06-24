@@ -87,6 +87,7 @@ function Model() {
       try {
         const response = await fetch('http://34.139.34.233:8000/run_script', {
           method: 'POST',
+          mode: 'cors',
         });
         const data = await response.json();
         console.log(data);
