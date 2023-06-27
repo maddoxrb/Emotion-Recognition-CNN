@@ -273,8 +273,8 @@ function Model() {
                           Sunflower
                         </Button>
                         <Button
-                          onClick={() => setSelectedLabel("tulips")}
-                          colorScheme={selectedLabel === "tulips" ? "blue" : "gray"}
+                          onClick={() => setSelectedLabel("tulip")}
+                          colorScheme={selectedLabel === "tulip" ? "blue" : "gray"}
                           flex="1"
                         >
                           Tulips
