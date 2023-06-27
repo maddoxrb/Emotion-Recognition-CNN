@@ -277,7 +277,7 @@ function Model() {
                           colorScheme={selectedLabel === "tulip" ? "blue" : "gray"}
                           flex="1"
                         >
-                          Tulips
+                          Tulip
                         </Button>
                       </SimpleGrid>
                     </Center>
