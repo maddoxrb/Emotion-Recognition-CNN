@@ -85,7 +85,7 @@ function Model() {
   const handleClick = async () => {
     const runScript = async () => {
       try {
-        const response = await fetch('http://34.139.34.233:8000/run_script', {
+        const response = await fetch('https://flower-cnn.de/run_script', {
           method: 'POST',
           mode: 'cors',
         });
